@@ -1,31 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: yellow-app
-  namespace: default
+  creationTimestamp: "2026-03-17T17:06:02Z"
+  generation: 1
+  labels:
+    app: nginx
+  name: nginx
+  namespace: argocd
+  resourceVersion: "12246"
+  uid: 81a7c709-744c-4dfa-a22b-4d7b09c867ba
 spec:
-  replicas: 2
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: yellow-app
+      app: nginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
-    labels:
-      app: yellow-app
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx
     spec:
       containers:
-      - name: web
-        image: nginx:alpine # On simule notre app avec nginx pour le tests
-        # LE CUISINIER EST-IL VIVANT ? (S'il rate, K8s le tue)
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 5
-        # LA PORTE EST-ELLE OUVERTE ? (S'il rate, K8s coupe le trafic)
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 5
+      - image: nginx:alpine
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}

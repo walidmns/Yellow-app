@@ -4,7 +4,7 @@ metadata:
   name: yellow-service
 spec:
   selector:
-    app: yellow-app
+    app: nginx
   ports:
     - protocol: TCP
       port: 80
