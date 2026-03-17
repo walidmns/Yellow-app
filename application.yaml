@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/walidmns/Yellow-app.git' # <-- METS TON LIEN ICI
-    targetRevision: master
+    targetRevision: main
     path: .
   destination:
     server: 'https://kubernetes.default.svc'
