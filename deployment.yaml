@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yellow-app
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: yellow-app
+  template:
+    labels:
+      app: yellow-app
+    spec:
+      containers:
+      - name: web
+        image: nginx:alpine # On simule notre app avec nginx pour le tests
+        # LE CUISINIER EST-IL VIVANT ? (S'il rate, K8s le tue)
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        # LA PORTE EST-ELLE OUVERTE ? (S'il rate, K8s coupe le trafic)
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
