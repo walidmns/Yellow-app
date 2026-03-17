@@ -1,18 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: "2026-03-17T17:06:02Z"
-  generation: 1
   labels:
     app: nginx
   name: nginx
   namespace: argocd
-  resourceVersion: "12246"
-  uid: 81a7c709-744c-4dfa-a22b-4d7b09c867ba
 spec:
-  progressDeadlineSeconds: 600
   replicas: 1
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: nginx
@@ -23,7 +17,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: nginx
     spec:
@@ -31,12 +24,3 @@ spec:
       - image: nginx:alpine
         imagePullPolicy: IfNotPresent
         name: nginx
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
-status: {}
